@@ -1,8 +1,11 @@
 trigger newaccount on Contact (before insert) {
-    for(contact leahc : system.trigger.new){
+    for(Contact leahc : system.trigger.new){
+    \\ Create an account based on a contact if contact
+    \\ is marked individual (not account).
         if(leahc.Individual__C == TRUE){
             Account leaha = New Account(Name = leahc.FirstName + ' ' + leahc.LastName + ' Individual');
                 Insert leaha;
+    \\ Move contact to new account.
                 leahc.AccountId = leaha.Id;
     }
 }
