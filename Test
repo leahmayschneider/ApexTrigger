@@ -1,0 +1,19 @@
+@isTest
+private class TestNewAccountFromContact {
+  static testmethod void TestInsertUnIndividualContact() {
+  // Create an individual contact and test if
+  // a new account is created
+     Contact c = new Contact(FirstName ='Leah', LastName = 'Schneider', Individual__C = TRUE );
+     test.starttest();
+     Database.insert(c);
+     test.stoptest();
+  // Verify an associated account was created.
+     List<Account> accts = [SELECT Id FROM Account
+                              WHERE Name= :c.FirstName + ' ' + c.LastName+ ' Individual'];
+     Account leahrocks = [SELECT Id FROM Account
+                              WHERE Name= :c.FirstName + ' ' + c.LastName+ ' Individual']
+     System.assert(accts.size() == 1);
+  // Verify contact was moved to new account.
+     system.assertEquals(c.Accountid, leahrocks.Id);
+  }
+}
