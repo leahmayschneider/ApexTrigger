@@ -1,0 +1,9 @@
+trigger newaccount on Contact (before insert) {
+    for(contact leahc : system.trigger.new){
+        if(leahc.Individual__C == TRUE){
+            Account leaha = New Account(Name = leahc.FirstName + ' ' + leahc.LastName + ' Individual');
+                Insert leaha;
+                leahc.AccountId = leaha.Id;
+    }
+}
+}
